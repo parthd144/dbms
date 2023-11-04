@@ -1,0 +1,58 @@
+#count of employee
+from pymongo import MongoClient
+
+client = MongoClient('localhost', 27017)
+db = client['db_name']
+
+pipeline = [
+    {"$group": {"_id": "$Dapt_no", "count": {"$sum": 1}}},
+]
+
+result = db.employee.aggregate(pipeline)
+
+for r in result:
+    print(r)
+
+#average salary of employee
+pipeline = [
+    {"$match": {"Dapt_no": "sales"}},
+    {"$group": {"_id": None, "avgSalary": {"$avg": "$salary"}}},
+]
+
+result = db.employee.aggregate(pipeline)
+
+for r in result:
+    print(r)
+
+#minimum salary to employees join in june 2016
+pipeline = [
+    {"$match": {"Date of Joining": {"$gte": datetime(2016, 6, 1), "$lt": datetime(2016, 7, 1)}}},
+    {"$group": {"_id": None, "minSalary": {"$min": "$salary"}}},
+]
+
+result = db.employee.aggregate(pipeline)
+
+for r in result:
+    print(r)
+
+#maximum salary in prod dept
+pipeline = [
+    {"$match": {"Dapt_no": "production"}},
+    {"$group": {"_id": None, "maxSalary": {"$max": "$salary"}}},
+]
+
+result = db.employee.aggregate(pipeline)
+
+for r in result:
+    print(r)
+
+#record of first and last emp
+pipeline = [
+    {"$sort": {"emp_id": 1}},
+    {"$group": {"_id": "$Dapt_no", "first": {"$first": "$$ROOT"}, "last": {"$last": "$$ROOT"}}},
+]
+
+result = db.employee.aggregate(pipeline)
+
+for r in result:
+    print(r)

@@ -1,0 +1,32 @@
+Consider student (roll_no, name, marks, class) table. Column roll_no is primary key. Perform any 3 DLL and any 3 DML operations on the table.
+
+DLL1-CREATE TABLE
+create table student(
+roll_no int primary key,
+stdname varchar(255),
+marks int,
+stdclass varchar(255));
+
+DLL2-ADD COLUMN
+alter table student
+add column age int;
+
+DLL3-DROP COLUMN
+alter table student
+drop column age;
+
+DML1-ADD STUDENT
+insert into student (roll_no,stdname,marks,stdclass)
+values (1,'Aditya',88,'B'),
+(2,'Shantanu',85,'A'),
+(3,'Vivek',35,'A'),
+(4,'Aniket',98,'A');
+
+DML2-UPDATE CLASS
+update student
+set stdclass = 'B'
+where roll_no = 1;
+
+DML3-DELETE STUDENT WITH MARKS<=85
+delete from student
+where marks<=85;

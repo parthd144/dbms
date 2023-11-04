@@ -1,0 +1,41 @@
+Consider the relation employee (emp_id,e_name,salary ,Date of Joining,Dapt_no,Designation) perform basic SQL operations.
+-Display employees whose name contains letter ‘e’.
+-Display different types of designation
+-Display name and salary of employee whose location is Mumbai
+-Display name and department of employee working in Manager or Marketing department
+-Display the department name whose employees are more than one
+-Rename employee table as emp1
+-Add a new column city in the employee table.
+
+-- Display employees whose name contains the letter 'e'
+SELECT emp_id, e_name
+FROM employee
+WHERE e_name LIKE '%e%';
+
+-- Display different types of designations
+SELECT DISTINCT Designation
+FROM employee;
+
+-- Display the name and salary of employees whose location is Mumbai
+SELECT e_name, salary
+FROM employee
+WHERE location = 'Mumbai';
+
+-- Display the name and department of employees working in the Manager or Marketing department
+SELECT e_name, Dapt_no
+FROM employee
+WHERE department IN ('Manager', 'Marketing');
+
+-- Display the department names with more than one employee
+SELECT department, COUNT(*) AS employee_count
+FROM employee
+GROUP BY department
+HAVING COUNT(*) > 1;
+
+-- Rename the employee table as emp1
+-- Note: The syntax may vary depending on the DBMS; this is for MySQL.
+RENAME TABLE employee TO emp1;
+
+-- Add a new column 'city' to the employee table
+ALTER TABLE emp1
+ADD COLUMN city VARCHAR(255);

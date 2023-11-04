@@ -1,0 +1,28 @@
+Implement a PL/SQL block of code using explicit Cursor, that will merge the data available in the newly created table N_RollCall with the data available in the table O_RollCall. If the data in the first table already exist in the second table then that data should be skipped. 
+
+DECLARE
+ CURSOR cur_new_rollcall IS
+    SELECT * FROM N_RollCall;
+ v_cust_id N_RollCall.Cust_ID%TYPE;
+ v_first_name N_RollCall.First_Name%TYPE;
+ v_last_name N_RollCall.Last_Name%TYPE;
+ v_age N_RollCall.Age%TYPE;
+ v_department N_RollCall.Department%TYPE;
+ v_designation N_RollCall.Designation%TYPE;
+BEGIN
+ OPEN cur_new_rollcall;
+
+ LOOP
+    FETCH cur_new_rollcall INTO v_cust_id, v_first_name, v_last_name, v_age, v_department, v_designation;
+
+    EXIT WHEN cur_new_rollcall%NOTFOUND;
+
+    IF NOT EXISTS (SELECT 1 FROM O_RollCall WHERE Cust_ID = v_cust_id) THEN
+      INSERT INTO O_RollCall(Cust_ID, First_Name, Last_Name, Age, Department, Designation)
+      VALUES(v_cust_id, v_first_name, v_last_name, v_age, v_department, v_designation);
+    END IF;
+ END LOOP;
+
+ CLOSE cur_new_rollcall;
+END;
+/

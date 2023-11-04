@@ -1,0 +1,53 @@
+Consider tables Borrower (RollNo, Name, DateofIssue, NameofBook, Status) and 
+Fine (Roll_no,Date,Amt). Status is either Issued or Returned.
+1. Create both the tables with primary key.
+2. Insert 10 records each.
+3. Find count of books with Issued status.
+4. Display all records.
+5. Display RollNo whose date of issue is same.
+
+
+-- Create the Borrower table with primary key constraint
+CREATE TABLE Borrower (
+    RollNo INT PRIMARY KEY,
+    Name VARCHAR(255),
+    DateofIssue DATE,
+    NameofBook VARCHAR(255),
+    Status VARCHAR(255)
+);
+
+-- Create the Fine table with primary key constraint
+CREATE TABLE Fine (
+    Roll_no INT PRIMARY KEY,
+    Date DATE,
+    Amt DECIMAL(10, 2)
+);
+
+-- Insert 10 records into the Borrower table
+INSERT INTO Borrower (RollNo, Name, DateofIssue, NameofBook, Status)
+VALUES
+    (1, 'John Doe', '2023-01-15', 'Book A', 'Issued'),
+    (2, 'Jane Smith', '2023-02-20', 'Book B', 'Returned'),
+    -- Add more records...
+
+-- Insert 10 records into the Fine table
+INSERT INTO Fine (Roll_no, Date, Amt)
+VALUES
+    (1, '2023-02-10', 10.00),
+    (2, '2023-03-05', 15.00),
+    -- Add more records...
+
+-- Find the count of books with "Issued" status
+SELECT COUNT(*) AS issued_books_count
+FROM Borrower
+WHERE Status = 'Issued';
+
+-- Display all records from the Borrower table
+SELECT *
+FROM Borrower;
+
+-- Display RollNo whose DateofIssue is the same
+SELECT RollNo, DateofIssue
+FROM Borrower
+GROUP BY RollNo, DateofIssue
+HAVING COUNT(*) > 1;

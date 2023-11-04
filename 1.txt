@@ -1,0 +1,41 @@
+1) Consider the relation employee (emp_id,e_name,salary ,Date of Joining,Dapt_no,Designation) perform basic SQL operations.
+-Create table employee.
+-Insert 10 records in table.
+-Create a view emp_vl of table employee which  has emp_id , name and dept-attributes.
+-Create view of table.
+-Update dept of any employee in view. Check whether it  gets updated or not.
+-Create emp_id as primary key and show indices on table employee.
+-Show indices on table.
+-Create user defined index on any column. 
+
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    e_name VARCHAR(255),
+    salary DECIMAL(10, 2),
+    date_of_joining DATE,
+    dept_no INT,
+    designation VARCHAR(255)
+);
+
+INSERT INTO employee  (emp_id, e_name, salary, date_of_joining, dept_no, designation)
+VALUES
+    (1, 'Joe', 50000.00, '2022-01-10', 101, 'Manager'),
+    (2, 'Jason', 45000.00, '2022-02-15', 102, 'Engineer'),
+	(3, 'Adu', 65000.00, '2022-04-05', 103, 'Sales Manager'),
+	(4, 'Aniket', 150000.00, '2022-01-10', 104, 'Enginner'),
+	(5, 'Tushar', 250000.00, '2022-01-10', 105, 'HR'),
+	(6, 'Shantanu', 140000.00, '2022-01-10', 106, 'Senior Executive'),
+	(7, 'Sarthak', 120000.00, '2022-01-10', 107, 'Project Planner'),
+	(8, 'Atharva', 90000.00, '2022-01-10', 108, 'Relationship Advisor'),
+	(9, 'Ajinkya', 100000.00, '2022-01-10', 109, 'CA'),
+	(10, 'Shivam', 140000.00, '2022-01-10', 110, 'Fund Raiser');
+
+CREATE VIEW emp_vl AS
+SELECT emp_id, e_name, dept_no AS dept
+FROM employee;
+
+UPDATE emp_vl
+SET dept = 111
+WHERE emp_id = 1;
+
+SELECT * FROM employee WHERE emp_id = 1;

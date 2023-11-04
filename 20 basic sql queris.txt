@@ -1,0 +1,104 @@
+Implement Basic SQL queries.
+1.  Create table employee.
+2.  Insert 10 records in table.
+3. Create a view emp_vl of table employee which  has emp_id , name and dept-attributes.
+4. Display name and department of employee working in Manager or Marketing department
+5. Display employees who were hired earliest or latest.
+6. Display name and department no of employees who are manager, market analysts. Use  
+    Predicates
+List employees hired in August.
+ List employees who are hired after 31/12/2006.
+
+#create emp table
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    dept VARCHAR(100),
+    hire_date DATE
+);
+
+#insert 10 records in the table
+INSERT INTO employee(emp_id, name, dept, hire_date)
+VALUES(1, 'John', 'Manager', '2000-01-01'),
+      (2, 'Alex', 'Marketing', '2001-02-02'),
+      (3, 'Emma', 'Sales', '2002-03-03'),
+      (4, 'James', 'IT', '2003-04-04'),
+      (5, 'David', 'Finance', '2004-05-05'),
+      (6, 'Oliver', 'Manager', '2005-06-06'),
+      (7, 'William', 'Marketing', '2006-07-07'),
+      (8, 'Emily', 'Sales', '2007-08-08'),
+      (9, 'Charlotte', 'IT', '2008-09-09'),
+      (10, 'Jason', 'Finance', '2009-10-10');
+
+#create a view emp_vl
+CREATE VIEW emp_vl AS
+SELECT emp_id, name, dept
+FROM employee;
+
+#Display name and department of employee working in Manager or Marketing department.
+SELECT name, dept
+FROM employee
+WHERE dept IN ('Manager', 'Marketing');
+
+#Display employees who were hired earliest or latest.
+SELECT name, dept, hire_date
+FROM employee
+WHERE hire_date = (SELECT MIN(hire_date) FROM employee)
+UNION ALL
+SELECT name, dept, hire_date
+FROM employee
+WHERE hire_date = (SELECT MAX(hire_date) FROM employee);
+
+#Display name and department no of employees who are manager, market analysts.
+SELECT COUNT(*) AS number_of_employees, dept
+FROM employee
+WHERE dept IN ('Manager', 'Marketing')
+GROUP BY dept;
+
+#list of employees hired in august
+SELECT name, dept, hire_date
+FROM employee
+WHERE EXTRACT(MONTH FROM hire_date) = 8;
+
+#List employees who are hired after 31/12/2006.
+SELECT name, dept, hire_date
+FROM employee
+WHERE hire_date > '2006-12-31';
+````</s><s><?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateArticleTranslationsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('article_translations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('article_id')->unsigned();
+            $table->string('locale')->index();
+            $table->string('title');
+            $table->text('description');
+            $table->timestamps();
+
+            $table->unique(['article_id', 'locale']);
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('article_translations');
+    }
+}

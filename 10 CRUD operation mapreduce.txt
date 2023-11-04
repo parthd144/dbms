@@ -1,0 +1,88 @@
+Implement CRUD operations. SAVE method. Use following Collection. Perform Map Reduce to count quantity of each item.
+Item: Item ID, Item quantity, price, brand, discount
+1. Display the count of item brand wise.
+2. Dsiplay item with minimum price.
+3. Display maximum discount given for item.
+
+import java.util.*;
+
+public class CRUD {
+
+    // Dummy data for simplicity
+    static List<Item> items = new ArrayList<>();
+
+    public static void main(String[] args) {
+        // CRUD Operations
+        Item item1 = new Item(1, 10, 100, "Brand1", 5);
+        Item item2 = new Item(2, 20, 200, "Brand2", 10);
+        Item item3 = new Item(3, 30, 300, "Brand1", 15);
+
+        save(item1);
+        save(item2);
+        save(item3);
+
+        // Displaying all items
+        items.forEach(System.out::println);
+
+        // Performing MapReduce to count quantity of each item
+        Map<Integer, Integer> quantityCount = countQuantity();
+        System.out.println("Quantity Count: " + quantityCount);
+
+        // Display the count of item brand wise
+        Map<String, Long> brandCount = countBrand();
+        System.out.println("Brand Count: " + brandCount);
+
+        // Display item with minimum price
+        Optional<Item> minPriceItem = findMinPriceItem();
+        minPriceItem.ifPresent(System.out::println);
+
+        // Display maximum discount given for item
+        Optional<Item> maxDiscountItem = findMaxDiscountItem();
+        maxDiscountItem.ifPresent(System.out::println);
+    }
+
+    static class Item {
+        int id;
+        int quantity;
+        double price;
+        String brand;
+        int discount;
+
+        Item(int id, int quantity, double price, String brand, int discount) {
+            this.id = id;
+            this.quantity = quantity;
+            this.price = price;
+            this.brand = brand;
+            this.discount = discount;
+        }
+
+        @Override
+        public String toString() {
+            return "Item ID: " + id + ", Quantity: " + quantity + ", Price: " + price + ", Brand: " + brand + ", Discount: " + discount;
+        }
+    }
+
+    public static void save(Item item) {
+        items.add(item);
+    }
+
+    public static Map<Integer, Integer> countQuantity() {
+        Map<Integer, Integer> quantityCount = new HashMap<>();
+        for (Item item : items) {
+            quantityCount.put(item.id, item.quantity);
+        }
+        return quantityCount;
+    }
+
+    public static Map<String, Long> countBrand() {
+        return items.stream().collect(Collectors.groupingBy(Item::getBrand, Collectors.counting()));
+    }
+
+    public static Optional<Item> findMinPriceItem() {
+        return items.stream().min(Comparator.comparingDouble(Item::getPrice));
+    }
+
+    public static Optional<Item> findMaxDiscountItem() {
+        return items.stream().max(Comparator.comparingInt(Item::getDiscount));
+    }
+}

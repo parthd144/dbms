@@ -1,0 +1,35 @@
+Write a database trigger on customer( cust_id, c_name, addr) table. The System should keep track of the records that are being updated or deleted. The old value of updated or deleted records should be added in cust_Audit table.
+
+CREATE TABLE cust_Audit(
+ audit_id INT PRIMARY KEY AUTO_INCREMENT,
+ cust_id INT,
+ c_name VARCHAR(50),
+ addr VARCHAR(100),
+ audit_date TIMESTAMP,
+ action VARCHAR(50)
+);
+
+create a trigger to log the changes whenever an INSERT, UPDATE, or DELETE operation is performed on the customer table:
+CREATE TRIGGER customer_after_insert
+AFTER INSERT ON customer
+FOR EACH ROW
+BEGIN
+ INSERT INTO cust_Audit(cust_id, c_name, addr, audit_date, action)
+ VALUES(NEW.cust_id, NEW.c_name, NEW.addr, NOW(), 'INSERT');
+END;
+
+CREATE TRIGGER customer_after_update
+AFTER UPDATE ON customer
+FOR EACH ROW
+BEGIN
+ INSERT INTO cust_Audit(cust_id, c_name, addr, audit_date, action)
+ VALUES(OLD.cust_id, OLD.c_name, OLD.addr, NOW(), 'UPDATE');
+END;
+
+CREATE TRIGGER customer_after_delete
+AFTER DELETE ON customer
+FOR EACH ROW
+BEGIN
+ INSERT INTO cust_Audit(cust_id, c_name, addr, audit_date, action)
+ VALUES(OLD.cust_id, OLD.c_name, OLD.addr, NOW(), 'DELETE');
+END;

@@ -1,0 +1,22 @@
+For the given relation schema: employee(employee-name, street, city) 
+works (employee-name, company-name, salary) 
+company (company-name, city) 
+manages (employee-name, manager-name)
+ Give an expression in SQL for each of the following queries: 
+1.Find the name of the company that has the smallest payroll.
+2.Find the names of all employees in the database who live in the same cities and on the same streets as do their managers.
+
+a) Find the name of the company that has the smallest payroll.
+SELECT C.company_name 
+FROM company C 
+JOIN works W ON C.company_name = W.company_name 
+GROUP BY C.company_name 
+ORDER BY SUM(W.salary) ASC 
+LIMIT 1;
+
+b) Find the names of all employees in the database who live in the same cities and on the same streets as do their managers.
+SELECT DISTINCT A.employee_name 
+FROM employee A 
+JOIN manages B ON A.employee_name = B.employee_name 
+JOIN employee C ON B.manager_name = C.employee_name 
+WHERE A.street = C.street AND A.city = C.city;
