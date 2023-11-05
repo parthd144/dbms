@@ -9,6 +9,17 @@ Consider the relation employee(emp_id,e_name,salary ,Date of Joining,Dapt_no,Des
 -List employees who are hired after 31/12/2006.
 -Find average annual salary per department
 
+--Crete table
+create table  employee(emp_id int, e_name varchar(255), salary int, date_join date, Dapt_no int, Designation varchar(255));
+
+--INsert in table
+insert into employee1(emp_id, e_name, dapt_no, salary, date_join, designation)
+values (1, 'joey', 03, 10000, '12/10/2022', 'engnr'),
+(2, 'alpha', 01, 103000, '10/10/2010', 'manager'),
+(3, 'ronaldo', 01, 198098, '05/07/2011', 'salesman'),
+(4, 'sheman', 01, 10347856, '06/04/2015', 'ceo'),
+(5, 'romeo', 02, 11374, '01/01/2023', 'chef');
+
 -- Find the department in which the maximum employees work
 SELECT Dapt_no, COUNT(*) AS employee_count
 FROM employee
