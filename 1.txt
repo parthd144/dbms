@@ -39,3 +39,7 @@ SET dept = 111
 WHERE emp_id = 1;
 
 SELECT * FROM employee WHERE emp_id = 1;
+
+Create index:
+CREATE INDEX idx_salary ON employee (salary);
+SHOW INDEX FROM employee;
